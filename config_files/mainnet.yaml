@@ -1,0 +1,4 @@
+sender:
+  dns_seed: "seed.bitcoin.sipa.be"
+  port: 8333
+  network: mainnet

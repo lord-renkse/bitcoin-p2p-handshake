@@ -1,0 +1,4 @@
+sender:
+  dns_seed: "localhost"
+  port: 8333
+  network: testnet

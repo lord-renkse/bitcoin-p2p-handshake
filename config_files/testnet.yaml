@@ -1,0 +1,4 @@
+sender:
+  dns_seed: "seed.tbtc.petertodd.org"
+  port: 18333
+  network: testnet
