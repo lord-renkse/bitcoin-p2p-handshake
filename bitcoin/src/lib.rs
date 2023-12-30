@@ -1,7 +1,3 @@
-pub mod message_type;
-pub mod verack;
-pub mod version;
-
 use crate::message_type::MessageType;
 use crate::verack::VerAck;
 use crate::version::Version;
@@ -12,6 +8,10 @@ use std::io::{Cursor, Read};
 use std::num::TryFromIntError;
 use std::string::FromUtf8Error;
 use thiserror::Error;
+
+pub mod message_type;
+pub mod verack;
+pub mod version;
 
 pub trait SerdeBitcoin {
     fn serialize(&self) -> Result<Vec<u8>, SerdeBitcoinError>;
@@ -50,6 +50,7 @@ const MAGIC_BYTES_TESTNET: [u8; 4] = [0x0b, 0x11, 0x09, 0x07];
 
 /// Magic bytes Size
 const MAGIC_BYTES_LENGTH: usize = 4;
+
 /// Checksum Size
 const CHECKSUM_LENGTH: usize = 4;
 
@@ -175,11 +176,12 @@ impl SerdeBitcoin for Message {
         cursor.read_exact(&mut payload_bytes)?;
 
         // Validate Payload
-        if Self::build_checksum(&payload_bytes)[..] != checksum {
+        if Self::build_checksum(&payload_bytes) != checksum {
             return Err(SerdeBitcoinError::InvalidChecksum);
         }
 
         // Deserialize Payload
+        // @TODO: Implement the deserialization directly for the type and not here
         let payload = match message_type {
             MessageType::Version => Payload::Version(Version::deserialize(&mut payload_bytes)?),
             MessageType::VerAck => Payload::VerAck(VerAck::deserialize(&mut payload_bytes)?),
@@ -224,7 +226,7 @@ mod test {
 
     #[test]
     fn test_verack() {
-        // Create a Version
+        // Create a VerAck
         let verack = VerAck;
 
         let message = Message::build(Payload::VerAck(verack), MessageType::VerAck, true);

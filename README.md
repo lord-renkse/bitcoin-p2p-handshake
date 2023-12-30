@@ -3,12 +3,16 @@
 ## Considerations
 
 - The program is configured with a configuration file in `yaml` format
-- The errors are propagated accordingly except the ones triggers during startup
-- The program can be run as a sender and connect it to the real testnet/mainnet, or it can be run as a standalone node in localhost
+- The errors are propagated accordingly except the ones triggered during startup
+- The program can be run as a sender and connect to the real testnet/mainnet, or it can be run as a standalone node in localhost
 - The types for the bitcoin handshake were defined in an independent crate, so it is properly encapsulated and it can be reused in any other project
+- No library related to bitcoin or p2p handshake were used
+
+## Improvements
 - There are basic unit tests specially for the bitcoin types, for the node there aren't unit test. It is something that definitely could be improved
 - The localhost address can be managed in a better way, `dns_seed` in the configuration should be an enum
-- No library related to bitcoin or p2p handshake were used
+- Majority of the errors are displayed in a debug format for simplicity, it shouldn't be like that
+- The node doesn't check if the magic bytes of the messages are the expected ones, but it does check the checksum
 
 ## Connecting node to the testnet
 

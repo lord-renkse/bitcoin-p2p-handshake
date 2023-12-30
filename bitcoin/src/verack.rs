@@ -18,18 +18,18 @@ mod test {
     use super::*;
 
     #[test]
-    fn test_version() {
-        // Create a Version
-        let version = VerAck;
+    fn test_verack() {
+        // Create a VerAck
+        let verack = VerAck;
 
-        // Serialize the Version into a Vec<u8>
-        let mut serialized_bytes = version.serialize().expect("serialize");
+        // Serialize the VerAck into a Vec<u8>
+        let mut serialized_bytes = verack.serialize().expect("serialize");
 
-        // Deserialize the bytes back to Version
+        // Deserialize the bytes back to VerAck
         let deserialized: VerAck =
             VerAck::deserialize(&mut serialized_bytes.as_mut_slice()).expect("deserialize");
 
         // Assert that the deserialized value matches the original value
-        assert_eq!(deserialized, version);
+        assert_eq!(deserialized, verack);
     }
 }
